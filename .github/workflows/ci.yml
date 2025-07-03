@@ -59,26 +59,29 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4.1.0
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-southeast-7
-      - name: Amazon ECR "Login" Action for GitHub Actions
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
+      # - name: Amazon ECR "Login" Action for GitHub Actions
+      #   id: login-ecr
+      #   uses: aws-actions/amazon-ecr-login@v2
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1.7.4
         with:
           task-definition: .aws/task-definition.json
-          container-name: bankierubybank/bkrbybk-ailab
+          container-name: bkrbybk-ailab
           image: bankierubybank/bkrbybk-ailab:dev
       - name: Amazon ECS "Deploy Task Definition" Action for GitHub Actions
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2.3.3
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ailab-frontend
+          service: ailab-frontend-service
           cluster: demo-ecs
           wait-for-service-stability: true
