@@ -76,7 +76,7 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1.7.4
         with:
           task-definition: .aws/task-definition.json
-          container-name: bkrbybk-ailab
+          container-name: ailab-frontend
           image: bankierubybank/bkrbybk-ailab:dev
       - name: Amazon ECS "Deploy Task Definition" Action for GitHub Actions
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2.3.3
