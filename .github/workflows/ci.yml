@@ -72,7 +72,7 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1.7.4
         with:
-          task-definition: ailab-frontend-task
+          task-definition: .aws/task-definition.json
           container-name: bankierubybank/bkrbybk-ailab
           image: bankierubybank/bkrbybk-ailab:dev
       - name: Amazon ECS "Deploy Task Definition" Action for GitHub Actions
