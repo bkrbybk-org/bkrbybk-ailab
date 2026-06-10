@@ -63,6 +63,14 @@ resource "aws_security_group" "app_sg" {
 
   ingress {
     description = "HTTP"
+    from_port   = 8000
+    to_port     = 8000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "HTTP"
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
@@ -79,7 +87,7 @@ resource "aws_security_group" "app_sg" {
 
 resource "aws_instance" "ailab_server" {
   ami           = "ami-019a40287c6e93276" # Ubuntu Server 24.04 LTS (HVM),EBS General Purpose (SSD) Volume Type
-  instance_type = "t3.medium"
+  instance_type = "t3.micro"
   key_name      = "bkrbybk-test"
   # security_groups = [aws_security_group.app_sg.name] ### TEST
   vpc_security_group_ids      = [aws_security_group.app_sg.id]
@@ -113,21 +121,5 @@ resource "aws_instance" "ailab_server" {
               newgrp docker
               curl -O https://gist.githubusercontent.com/bankierubybank/d8bc415b3ccb9e1713ebc8389228f0cd/raw/dcc0d269e1af6c7021cfdc39c4d6d59f05c45a9f/docker-compose.yml
               docker compose up -d
-              docker exec -it ollama ollama run deepseek-r1:1.5b
-              docker exec -it ollama ollama run llama3.2:1b
               EOF
 }
-
-# sudo apt update -y
-# sudo apt install -y python3 
-# sudo apt install -y python3-pip
-# sudo apt install -y python3.12-venv
-# curl -fsSL https://ollama.com/install.sh | sh
-# ollama -v
-# ollama run deepseek-r1:1.5b
-# ollama ps
-# ollama list
-# python3 -m venv open-webui
-# source open-webui/bin/activate
-# pip install open-webui
-# open-webui serve
